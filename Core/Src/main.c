@@ -109,8 +109,10 @@ int main(void)
 
   //运放自校准
   HAL_OPAMP_SelfCalibrate(&hopamp1);
+  HAL_IWDG_Refresh(&hiwdg);
   HAL_Delay(1);
 
+  
   //启动运放
   HAL_OPAMP_Start(&hopamp1);
 
@@ -120,6 +122,8 @@ int main(void)
   HAL_ADCEx_Calibration_Start(&hadc2,ADC_SINGLE_ENDED);
   HAL_Delay(1);
 
+  HAL_IWDG_Refresh(&hiwdg);
+  
   //ADC启动，DMA传输模式
   HAL_ADC_Start_DMA(&hadc1,(uint32_t *)ADC1Value,3);
   //DMA半满中断关闭，使用ADC的DMA全满是，代表ADC数据已经完全转换，然后再进入中断进行PID环路计算
