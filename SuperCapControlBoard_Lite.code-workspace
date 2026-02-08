@@ -28,7 +28,7 @@
             "editor.autoIndent": "advanced"
         },
         "commentTranslate.source": "Bing",
-        "cortex-debug.variableUseNaturalFormat": false
+        "cortex-debug.variableUseNaturalFormat": true
     },
     "extensions": {
         "recommendations": [
