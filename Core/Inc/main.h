@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "PID_v1.h"
 #include "SuperCapCtrl.h"
 /* USER CODE END Includes */
 
@@ -82,15 +82,19 @@ void Error_Handler(void);
 #define TIM1_BKIN_GPIO_Port GPIOB
 #define TEST_OUT_Pin GPIO_PIN_13
 #define TEST_OUT_GPIO_Port GPIOB
-#define LED_BLUE_Pin GPIO_PIN_15
-#define LED_BLUE_GPIO_Port GPIOB
-#define LED_GREEN_Pin GPIO_PIN_8
-#define LED_GREEN_GPIO_Port GPIOA
+#define LED_CHASSIS_Pin GPIO_PIN_15
+#define LED_CHASSIS_GPIO_Port GPIOB
+#define LED_CAP_Pin GPIO_PIN_8
+#define LED_CAP_GPIO_Port GPIOA
 #define TEST_MODE_Pin GPIO_PIN_9
 #define TEST_MODE_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 #define LITE
+#define LED_BLUE_Pin GPIO_PIN_15
+#define LED_BLUE_GPIO_Port GPIOB
+#define LED_GREEN_Pin GPIO_PIN_8
+#define LED_GREEN_GPIO_Port GPIOA
 
 /* USER CODE END Private defines */
 
