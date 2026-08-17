@@ -101,22 +101,22 @@ int main(void)
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 
-  //����96λΨһUID��ȡADC��ϲ���
+  //根据96位唯一UID获取ADC拟合参数
   ADC_Curve_Fitting();
   
-  //��Դ��·������ʼ��
+  //电源环路参数初始化
   Power_Loop_Parameter_Init();
 
-  //�˷���У׼
+  //运放自校准
   HAL_OPAMP_SelfCalibrate(&hopamp1);
   HAL_IWDG_Refresh(&hiwdg);
   HAL_Delay(1);
 
   
-  //�����˷�
+  //启动运放
   HAL_OPAMP_Start(&hopamp1);
 
-  //ADC��У׼
+  //ADC自校准
   HAL_ADCEx_Calibration_Start(&hadc1,ADC_SINGLE_ENDED);
   HAL_Delay(1);
   HAL_ADCEx_Calibration_Start(&hadc2,ADC_SINGLE_ENDED);
@@ -124,26 +124,26 @@ int main(void)
 
   HAL_IWDG_Refresh(&hiwdg);
   
-  //ADC������DMA����ģʽ
+  //ADC启动，DMA传输模式
   HAL_ADC_Start_DMA(&hadc1,(uint32_t *)ADC1Value,3);
-  //DMA�����жϹرգ�ʹ��ADC��DMAȫ���ǣ�����ADC�����Ѿ���ȫת����Ȼ���ٽ����жϽ���PID��·����
+  //DMA半满中断关闭，使用ADC的DMA全满是，代表ADC数据已经完全转换，然后再进入中断进行PID环路计算
   __HAL_DMA_DISABLE_IT(&hdma_adc1,DMA_IT_HT);
   HAL_ADC_Start_DMA(&hadc2,(uint32_t *)ADC2Value,3);
-  //ADC2û����DMA�жϣ�ADC1��ADC2��ͬ�����в�����
+  //ADC2没开启DMA中断，ADC1和ADC2是同步进行采样的
   
-  //FDCAN��������ʼ��
+  //FDCAN过滤器初始化
   FDCAN_Filter_Init();
 
-  //����FDCAN
+  //开启FDCAN
   HAL_FDCAN_Start(&hfdcan1);
 
-  //����PWM�Ķ�ʱ������
+  //半桥PWM的定时器启动
   HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
   HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
 
-  //����FDCAN�ж�
+  //开启FDCAN中断
   HAL_FDCAN_ActivateNotification(&hfdcan1,FDCAN_IT_RX_FIFO0_NEW_MESSAGE,0);
-  //ADC�����Ķ�ʱ��ͨ���������������ʱ��ͨ��ʱ��ADC���Ὺʼ������DMA�жϿ�ʼ��Ч��Ϊ�˱�֤�жϲ����ϳ�ʼ���������������
+  //ADC触发的定时器通道，当开启这个定时器通道时，ADC将会开始触发，DMA中断开始生效，为了保证中断不会打断初始化，必须最后开启。
   HAL_TIMEx_OCN_Start(&htim1,TIM_CHANNEL_1);
 
   /* USER CODE END 2 */
@@ -152,6 +152,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Free_Loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
