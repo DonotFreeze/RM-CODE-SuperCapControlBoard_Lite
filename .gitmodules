@@ -1,0 +1,3 @@
+[submodule "Lib/RM-SuperCapCtrlLib"]
+	path = Lib/RM-SuperCapCtrlLib
+	url = https://github.com/DonotFreeze/RM-SuperCapCtrlLib.git
